@@ -10,14 +10,14 @@ import java.util.HashMap;
 public class dataSet {
     private int inputSize;
     private int outputSize;
-    private String fileName;
+    private final String fileName;
     ArrayList<double[][]> data = new ArrayList<double[][]>();
     ArrayList<double[]> inputData = new ArrayList<double[]>();
     ArrayList<double[]> outputData = new ArrayList<double[]>();
-    private ArrayList<double[]> trainingOutputdata = new ArrayList<double[]>();
-    private ArrayList<double[]> trainingInputData = new ArrayList<double[]>();
-    private ArrayList<double[]> testOutputData = new ArrayList<double[]>();
-    private ArrayList<double[]> testInputData = new ArrayList<double[]>();
+    private final ArrayList<double[]> trainingOutputdata = new ArrayList<double[]>();
+    private final ArrayList<double[]> trainingInputData = new ArrayList<double[]>();
+    private final ArrayList<double[]> testOutputData = new ArrayList<double[]>();
+    private final ArrayList<double[]> testInputData = new ArrayList<double[]>();
 
     public dataSet(String file){
 //        this.inputSize = inputSize;
@@ -27,7 +27,7 @@ public class dataSet {
     }
 
     public void convertDataFromFile() throws Exception {
-        //Read data from  csv file, first 9 are inputs, second are output;
+        //Read data from  csv file, first 9 numbers are inputs, second 9 are output;
         //Put into seperate list
         String row;
         ArrayList<String> inputString = new ArrayList<String>();
@@ -45,11 +45,11 @@ public class dataSet {
             }
             in++;
         }
-        for(String i : inputString){
-            String[] valuesForInput =  i.split(",");
-            double[] input = new double[valuesForInput.length];
-            for(int j = 0; j < valuesForInput.length; j++){
-                input[j] = Double.parseDouble(valuesForInput[j]);
+        for(String stringInput : inputString){
+            String[] valuesFromInput =  stringInput.split(",");
+            double[] input = new double[valuesFromInput.length];
+            for(int j = 0; j < valuesFromInput.length; j++){
+                input[j] = Double.parseDouble(valuesFromInput[j]);
             }
             this.inputData.add(input);
         }
@@ -79,9 +79,11 @@ public class dataSet {
             for (int i = 0; i < trainingInputData.size(); i++) {
                 indexs.add(i);
             }
+            //Shuffle the index's of the data;
             Collections.shuffle(indexs);
 
             for (int i = 0; i < trainingInputData.size(); i++) {
+                //then swap them accordingly with the new index's;
                 Collections.swap(trainingInputData, i, indexs.get(i));
                 Collections.swap(trainingOutputdata, i, indexs.get(i));
             }

@@ -7,7 +7,7 @@ import java.util.Random;
 public class Matrix {
     private int rows;
     private int columns;
-    private double[][] matrix;
+    private final double[][] matrix;
 
     public Matrix(int rows, int columns){
         //need to change to have a condition for the rows and columns

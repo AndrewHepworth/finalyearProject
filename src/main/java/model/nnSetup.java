@@ -31,12 +31,12 @@ public class nnSetup{
     private double learningRate;
     private boolean isShuffle;
     private boolean isSplit;
-    private ArrayList<Integer> minimumLayerSizes = new ArrayList<Integer>();
-    private ArrayList<Double> listOFLearningRates = new ArrayList<Double>();
+    private final ArrayList<Integer> minimumLayerSizes = new ArrayList<Integer>();
+    private final ArrayList<Double> listOFLearningRates = new ArrayList<Double>();
     private int selectedError;
-    private ArrayList<Integer> listOfErrors = new ArrayList<Integer>();
+    private final ArrayList<Integer> listOfErrors = new ArrayList<Integer>();
     private boolean analysis;
-    private boolean fileSelected = false;
+    private final boolean fileSelected = false;
 
     public void nnSetup() throws Exception {
         this.error = true;
@@ -247,12 +247,7 @@ public class nnSetup{
 
                                 System.out.println("Would you like to save another network? y/n");
                                 userInput = scan.nextLine();
-                                if (userInput.contains("y")){
-                                    error = true;
-                                }
-                                else{
-                                    error = false;
-                                }
+                                error = userInput.contains("y");
                             }
                             else{
                                 System.out.println("Enter a valid network");
@@ -613,12 +608,7 @@ public class nnSetup{
                         System.out.println("Activation Function selected is either Invalid or already selected: ");
                         System.out.println("Do you wish to continue selection: y/n");
                         userInput = scan.nextLine();
-                        if(userInput.contains("y")){
-                            error= true;
-                        }
-                        else{
-                            error = false;
-                        }
+                        error= userInput.contains("y");
                     }
                 } catch (NumberFormatException e) {
                     System.out.println("Enter a valid number");

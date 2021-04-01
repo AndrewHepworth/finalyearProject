@@ -1342,9 +1342,9 @@ public class tictactoe {
                 }
                 else {
                     if (gBoard[i][j] == 2) {
-                        gameRecorder.append(String.valueOf(this.DataSetPlayerTwo + ","));
+                        gameRecorder.append(this.DataSetPlayerTwo + ",");
                     } else if (gBoard[i][j] == 1) {
-                        gameRecorder.append(String.valueOf(this.DataSetPlayerOne + ","));
+                        gameRecorder.append(this.DataSetPlayerOne + ",");
                     }else{
                         gameRecorder.append(0+",");
                     }

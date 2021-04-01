@@ -38,8 +38,8 @@ public class nn implements Serializable {
     private int activationSelectorLayer2;
     private int activationSelectorLayer3;
     private int errorSelector ;
-    private ArrayList<Double> listOFlossTest = new ArrayList<Double>();
-    private ArrayList<Double> listOFTrainingLoss = new ArrayList<Double>();
+    private final ArrayList<Double> listOFlossTest = new ArrayList<Double>();
+    private final ArrayList<Double> listOFTrainingLoss = new ArrayList<Double>();
     private Matrix outputMatrix;
     private double learningRate;
     private Double finalErrorCalculationTest;

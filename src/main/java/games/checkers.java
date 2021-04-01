@@ -18,11 +18,11 @@ public class checkers {
     private static final int EMPTY = 0;
     private int boardX;
     private int boardY;
-    private List<Integer> listOfAvailableMoves = new ArrayList<Integer>();
-    private List<Integer> ListOfPieces = new ArrayList<Integer>();
-    private List<String> moveOptions = new ArrayList<String>();
-    private HashMap<String, Integer> moveNumber = new HashMap<String, Integer>();
-    private HashMap<Integer, String> positionMove = new HashMap<>();
+    private final List<Integer> listOfAvailableMoves = new ArrayList<Integer>();
+    private final List<Integer> ListOfPieces = new ArrayList<Integer>();
+    private final List<String> moveOptions = new ArrayList<String>();
+    private final HashMap<String, Integer> moveNumber = new HashMap<String, Integer>();
+    private final HashMap<Integer, String> positionMove = new HashMap<>();
     private int maxTurn;
     private int maxNumberOfGames;
     private int maxDepth;
@@ -808,7 +808,7 @@ public class checkers {
                 for(String move : moves){
                     System.out.print(", "+move);
                 }
-                System.out.println("");
+                System.out.println();
                 pieceSelected = input.nextLine();
                 correctlySelected = selectPiece(pieceSelected, player);
             }
@@ -826,12 +826,7 @@ public class checkers {
                 showAvailableMoves(pieceSelected);
                 optionTaken = input.nextLine();
                 playerMoveConverter(optionTaken, pieceSelected, 1);
-                if(checkWin(false)){
-                    return false;
-                }
-                else{
-                    return true;
-                }
+                return !checkWin(false);
             }
         }
         else{
@@ -844,18 +839,9 @@ public class checkers {
         nextBestMove(gameBoardData.clone(),board.clone(),player,maximiser, isAlpha, false);
         if(showMoves){
             generateBoard();
-            if(checkWin(false)){
-                return false;
-            }
-            else{
-                return true;
-            }
+            return !checkWin(false);
         }else {
-            if (checkWin(true)) {
-                return false;
-            } else {
-                return true;
-            }
+            return !checkWin(true);
         }
     }
 
@@ -904,12 +890,7 @@ public class checkers {
         compTurn = rand.nextInt(moveOptions.size());
 
         playerMoveConverter(moveOptions.get(compTurn),selectedPiece, player);
-        if(checkWin(true)){
-            return false;
-        }
-        else{
-            return true;
-        }
+        return !checkWin(true);
 
     }
 
@@ -920,11 +901,7 @@ public class checkers {
             decryptOutput(this.customPlayerNN.giveInput(input),this.customPlayerAfterMoveNN.giveInput(input), player);
         }
 
-        if(checkWin(true)){
-            return false;
-        }else{
-            return true;
-        }
+        return !checkWin(true);
     }
 
     private double[] encryptInput(nn neuralNET) {
@@ -1306,12 +1283,7 @@ public class checkers {
                 }
             }
         }
-        if(listOfAvailableMoves.isEmpty()){
-            return false;
-        }
-        else{
-            return true;
-        }
+        return !listOfAvailableMoves.isEmpty();
     }
 
     private int getPosition(int row, int column) {
@@ -1352,7 +1324,7 @@ public class checkers {
         for(String moveList : moveOptions){
             System.out.print(", " +moveList);
         }
-        System.out.println("");
+        System.out.println();
     }
 
     private void playerMoveConverter(String move, String pieceSelected, int player){
@@ -1969,6 +1941,10 @@ public class checkers {
 
 
     private static int[][] copy2Darray(int[][] inputArray){
+        //Produces a deep copy of a 2D array
+        //Possible to make a utility Class that Has a interface for this
+        //Then just implement the interface? Not really needed but
+
         if(inputArray == null){
             return null;
         }
@@ -2278,20 +2254,22 @@ public class checkers {
 
 
     private String createFile(){
-        boolean error = true;
+//        boolean error = true;
         Scanner scan = new Scanner(System.in);
         String userInput = "";
-        while(error){
+        while(true){
             System.out.println("Would you like to choose a File name for the DataSet? y/n");
             userInput = scan.nextLine();
             if(userInput.contains("y")){
                 System.out.println("What is the filename?");
                 userInput = scan.nextLine();
-                error = false;
+//                error = false;
+                break;
             }
             else if(userInput.contains("n")){
                 userInput = "customDataSetCheckers";
-                error = false;
+//                error = false;
+                break;
             }
         }
         return  userInput+".csv";
@@ -2303,21 +2281,21 @@ public class checkers {
         }
         int counter = 0;
         int counter2 = 0;
-        for(int i = 0; i< boardX ; i++){
+        for (int i = 0; i < boardX; i++) {
             counter++;
-            for(int j = 0; j < boardY ; j++) {
+            for (int j = 0; j < boardY; j++) {
                 counter2++;
                 //IF
                 if (counter % 2 != 0 && counter2 % 2 == 0) {
                     if (this.actionOutput && isOutput) {
-                        if(isAfter) {
+                        if (isAfter) {
                             if (gameBoardData[i][j] != previousBoard[i][j] && gameBoardData[i][j] != 0) {
 //                            gameBoardData[i][j] != 0;
                                 gameRecorder.append(1 + ",");
                             } else {
                                 gameRecorder.append(0 + ",");
                             }
-                        }else if(!isAfter) {
+                        } else if (!isAfter) {
                             if (gameBoardData[i][j] != previousBoard[i][j] && gameBoardData[i][j] != 1) {
 //                            gameBoardData[i][j] != 0;
                                 gameRecorder.append(1 + ",");
@@ -2327,30 +2305,27 @@ public class checkers {
                         }
                     } else {
                         if (gameBoardData[i][j] == FIRST_PLAYER) {
-                            gameRecorder.append(String.valueOf(this.DataSetPlayerOne + ","));
+                            gameRecorder.append(this.DataSetPlayerOne + ",");
                         } else if (gameBoardData[i][j] == SECOND_PLAYER) {
-                            gameRecorder.append(String.valueOf(this.DataSetPlayerTwo + ","));
-                        }else if (gameBoardData[i][j] == FIRST_PLAYER_KING) {
-                            gameRecorder.append(String.valueOf(this.DataSetPlayerOne*2 + ","));
-                        }
-                        else if (gameBoardData[i][j] == SECOND_PLAYER_KING) {
-                            gameRecorder.append(String.valueOf(this.DataSetPlayerTwo * 2 + ","));
-                        }
-                        else {
+                            gameRecorder.append(this.DataSetPlayerTwo + ",");
+                        } else if (gameBoardData[i][j] == FIRST_PLAYER_KING) {
+                            gameRecorder.append(this.DataSetPlayerOne * 2 + ",");
+                        } else if (gameBoardData[i][j] == SECOND_PLAYER_KING) {
+                            gameRecorder.append(this.DataSetPlayerTwo * 2 + ",");
+                        } else {
                             gameRecorder.append(0 + ",");
                         }
                     }
-                }
-                else if(counter % 2 == 0 && counter2 % 2 !=0){
+                } else if (counter % 2 == 0 && counter2 % 2 != 0) {
                     if (this.actionOutput && isOutput) {
-                        if(isAfter) {
+                        if (isAfter) {
                             if (gameBoardData[i][j] != previousBoard[i][j] && gameBoardData[i][j] != 0) {
 //                            gameBoardData[i][j] != 0;
                                 gameRecorder.append(1 + ",");
                             } else {
                                 gameRecorder.append(0 + ",");
                             }
-                        }else if(!isAfter) {
+                        } else if (!isAfter) {
                             if (gameBoardData[i][j] != previousBoard[i][j] && gameBoardData[i][j] != 1) {
 //                            gameBoardData[i][j] != 0;
                                 gameRecorder.append(1 + ",");
@@ -2361,17 +2336,15 @@ public class checkers {
 
                     } else {
                         if (gameBoardData[i][j] == SECOND_PLAYER) {
-                            gameRecorder.append(String.valueOf(this.DataSetPlayerTwo + ","));
+                            gameRecorder.append(this.DataSetPlayerTwo + ",");
                         } else if (gameBoardData[i][j] == FIRST_PLAYER) {
-                            gameRecorder.append(String.valueOf(this.DataSetPlayerOne + ","));
+                            gameRecorder.append(this.DataSetPlayerOne + ",");
 
-                        }else if (gameBoardData[i][j] == FIRST_PLAYER_KING) {
-                            gameRecorder.append(String.valueOf(this.DataSetPlayerOne*2 + ","));
-                        }
-                        else if (gameBoardData[i][j] == SECOND_PLAYER_KING) {
-                            gameRecorder.append(String.valueOf(this.DataSetPlayerTwo * 2 + ","));
-                        }
-                        else {
+                        } else if (gameBoardData[i][j] == FIRST_PLAYER_KING) {
+                            gameRecorder.append(this.DataSetPlayerOne * 2 + ",");
+                        } else if (gameBoardData[i][j] == SECOND_PLAYER_KING) {
+                            gameRecorder.append(this.DataSetPlayerTwo * 2 + ",");
+                        } else {
                             gameRecorder.append(0 + ",");
                         }
                     }
